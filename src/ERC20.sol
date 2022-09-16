@@ -84,7 +84,7 @@ contract ERC20 {
         require(balances[_from] >= _value, "Value exceeds balance"); //value는 from이 to한테 보내는 거기 때문에 balances[_from]의 value를 검사해야 함.
 
         uint256 curretnAllowance = allowance(_from, msg.sender);
-        //if (curretnAllowance)
+        
         require(curretnAllowance >= _value, "insufficient allowance");
         unchecked {
             allowances[_from][msg.sender] -= _value;
@@ -103,6 +103,7 @@ contract ERC20 {
 
     function approve(address _to, uint256 _value) public returns (bool success){
         allowances[msg.sender][_to] = _value;
+        emit Approval(msg.sender, _to, _value);
         if (allowances[msg.sender][_to] > 0){
             return true;
         } else{
